@@ -1,9 +1,9 @@
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs/promises';
+import { FS_ERROR_TEXT } from '../constants.js';
+import { getDirName } from '../utils.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = getDirName(import.meta.url);
 
 const create = async () => {
     const FILE_TEXT = 'I am fresh and young';
@@ -12,7 +12,7 @@ const create = async () => {
     try{
         await fs.writeFile(filePath, FILE_TEXT, { flag: 'wx', encoding: 'utf-8' });
     } catch {
-        throw new Error('FS operation failed');
+        throw new Error(FS_ERROR_TEXT);
     }
 };
 

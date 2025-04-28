@@ -1,6 +1,7 @@
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs/promises';
+import { FS_ERROR_TEXT } from '../constants.js';
+import { getDirName } from '../utils.js';
 
 class DirExistError extends Error {
     constructor() {
@@ -9,8 +10,7 @@ class DirExistError extends Error {
     }
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = getDirName(import.meta.url);
 
 const copy = async () => {
     const filesFolderPath = path.resolve(__dirname, 'files');
@@ -28,7 +28,7 @@ const copy = async () => {
 
         await fs.cp(filesFolderPath, filesCopyFolderPath, { recursive: true, errorOnExist: true, force: false });
     } catch {
-        throw new Error('FS operation failed');
+        throw new Error(FS_ERROR_TEXT);
     }
 };
 
